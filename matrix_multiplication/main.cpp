@@ -47,14 +47,15 @@ void blas_dgemm(int N, int M, int K, double* A, double* B, double* C)
     int i, j, k;
     for (i = 0; i < N; i++) 
     {
-        for (j = 0; j < M; j++) 
+        double* c = C + i * M;
+        for (k = 0; k < K; k++) 
         {
-            double sum = 0.0;
-            for (k = 0; k < K; k++) 
+            const double* b = B + k * M;
+            double a = A[i * K + k];
+            for (j = 0; j < M; j++) 
             {
-                sum += A[i * K + k] * B[k * M + j];
+                c[j] += a * b[j];
             }
-            C[i * M + j] += sum;
         }
     }
 }
